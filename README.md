@@ -6,7 +6,7 @@ This project is part of the coursework for the "Networked Software for Distribut
 
 The key technologies covered in this project include:
 
-- **[AKKA] (https://github.com/DariodAbate/NSDS_project/AKKA)**: A toolkit implementing the actor model for building highly concurrent, fault-tolerant applications, using a message-based, asynchronous communication.
+- **<a href="../AKKA">AKKA</a>**: A toolkit implementing the actor model for building highly concurrent, fault-tolerant applications, using a message-based, asynchronous communication.
 - **KAFKA**: A distributed messaging system designed for high-throughput, low-latency data streaming and real-time event processing.
 - **SPARK**: A unified analytics engine for large-scale data processing with built-in modules for SQL, streaming, machine learning, and graph processing.
 - **CONTIKI NG**: An open-source operating system for the Internet of Things, designed for low-power, low-memory devices.
