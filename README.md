@@ -6,10 +6,16 @@ This project is part of the coursework for the "Networked Software for Distribut
 
 The key technologies covered in this project include:
 
-- **AKKA**: A toolkit and runtime for building highly concurrent, distributed, and fault-tolerant applications on the JVM.
-- **KAFKA**: A distributed event streaming platform capable of handling trillions of events per day.
-- **SPARK**: An open-source distributed computing system that provides an interface for programming entire clusters with implicit data parallelism and fault tolerance.
+- **[AKKA] (https://github.com/DariodAbate/NSDS_project/AKKA)**: A toolkit implementing the actor model for building highly concurrent, fault-tolerant applications, using a message-based, asynchronous communication.
+- **KAFKA**: A distributed messaging system designed for high-throughput, low-latency data streaming and real-time event processing.
+- **SPARK**: A unified analytics engine for large-scale data processing with built-in modules for SQL, streaming, machine learning, and graph processing.
 - **CONTIKI NG**: An open-source operating system for the Internet of Things, designed for low-power, low-memory devices.
-- **NODE RED**: A flow-based development tool for visual programming, primarily used to connect hardware devices, APIs, and online services in new and interesting ways.
-- **MPI**: The Message Passing Interface, a standardized and portable message-passing system designed to function on parallel computing architectures.
+- **NODE RED**: A flow-based development tool for visual programming, primarily used to connect hardware devices, APIs, and online services.
+- **MPI**: A standardized and portable message-passing system designed to function on parallel computing architectures.
+
+## The Team
+- #### [Dario d'Abate](https://github.com/DariodAbate)<br/>dario.dabate@mail.polimi.it
+- #### [Lorenzo Corrado](https://github.com/Lerrylore)<br/>lorenzo.corrado@mail.polimi.it
+- #### [Filippo Ranieri Pantaleone]()<br/>
+
 
