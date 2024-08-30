@@ -1,0 +1,414 @@
+[
+    {
+        "id": "93f4958448e5f968",
+        "type": "tab",
+        "label": "Eval_lab_2023",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "429328d6a2a6851e",
+        "type": "chatbot-telegram-receive",
+        "z": "93f4958448e5f968",
+        "bot": "f14c05c704f244b3",
+        "botProduction": "",
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "69e04037073df1d8"
+            ]
+        ]
+    },
+    {
+        "id": "dd2e83df36672dca",
+        "type": "chatbot-telegram-send",
+        "z": "93f4958448e5f968",
+        "bot": "f14c05c704f244b3",
+        "botProduction": "",
+        "track": false,
+        "passThrough": false,
+        "errorOutput": false,
+        "outputs": 0,
+        "x": 1710,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "69e04037073df1d8",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "Compute answers",
+        "func": "let message = new Array(node.outputCount);\n\nif (msg.payload.content.includes(\"weather forecast\")) {\n    if (msg.payload.content == \"What's the weather forecast in one day in Milan?\" ||\n        msg.payload.content == \"What's the weather forecast in one day in Rome?\" ||\n        msg.payload.content == \"What's the weather forecast in two days in Rome?\" ||\n        msg.payload.content == \"What's the weather forecast in two days in Milan?\"){\n        message[0] = msg;\n    }else{\n        msg.payload.content = \"I don't get what you're asking...\";\n        message[2] = msg;\n    }\n} else if(msg.payload.content.includes(\"wind forecast\")){\n    if (msg.payload.content == \"What's the wind forecast in one day in Milan?\" ||\n        msg.payload.content == \"What's the wind forecast in one day in Rome?\" ||\n        msg.payload.content == \"What's the wind forecast in two days in Rome?\" ||\n        msg.payload.content == \"What's the wind forecast in two days in Milan?\") {\n        message[1] = msg;\n    } else {\n        msg.payload.content = \"I don't get what you're asking...\";\n        message[2] = msg;\n    }\n}else {\n    msg.payload.content = \"I don't get what you're asking...\";\n    message[2] = msg;\n}\n\nreturn message;\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "7efd1b9bcf928592"
+            ],
+            [
+                "e15b4ab05f93482e"
+            ],
+            [
+                "f7f6ee031c575571"
+            ]
+        ]
+    },
+    {
+        "id": "6cdd84a86ab34bb3",
+        "type": "inject",
+        "z": "93f4958448e5f968",
+        "name": "Timer input 60 seconds",
+        "props": [],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "60",
+        "topic": "",
+        "x": 270,
+        "y": 520,
+        "wires": [
+            [
+                "97400cd848c2e39a"
+            ]
+        ]
+    },
+    {
+        "id": "7efd1b9bcf928592",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "weather - counters",
+        "func": "let counterF = flow.get(\"cWeather\");\ncounterF++;\nflow.set(\"cWeather\", counterF);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nlet temp = 0;\nif(!flow.get(\"cWeather\")){\n    flow.set(\"cWeather\", temp);\n}\n",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 320,
+        "wires": [
+            [
+                "b08515ce3e05d3e3"
+            ]
+        ]
+    },
+    {
+        "id": "97400cd848c2e39a",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "Reset Counter",
+        "func": "let newMsg = {\n    payload: new Object\n}\nnewMsg.payload.counterWind = flow.get(\"cWind\");\nnewMsg.payload.counterForecast = flow.get(\"cWeather\");\nlet reset = 0;\nflow.set(\"cWind\", reset);\nflow.set(\"cWeather\", reset);\nreturn newMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 520,
+        "wires": [
+            [
+                "f9d8b2b521a8af7a"
+            ]
+        ]
+    },
+    {
+        "id": "f9d8b2b521a8af7a",
+        "type": "file",
+        "z": "93f4958448e5f968",
+        "name": "",
+        "filename": "Counters",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 690,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "132b7df3a2fd2e0d",
+        "type": "inject",
+        "z": "93f4958448e5f968",
+        "name": "Debug Read",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 270,
+        "y": 600,
+        "wires": [
+            [
+                "9284b4ea321b7cd9"
+            ]
+        ]
+    },
+    {
+        "id": "9284b4ea321b7cd9",
+        "type": "file in",
+        "z": "93f4958448e5f968",
+        "name": "",
+        "filename": "Counters",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 460,
+        "y": 600,
+        "wires": [
+            [
+                "6eab95bc9a6a74f7"
+            ]
+        ]
+    },
+    {
+        "id": "6eab95bc9a6a74f7",
+        "type": "debug",
+        "z": "93f4958448e5f968",
+        "name": "Read file",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "e15b4ab05f93482e",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "wind - counters",
+        "func": "let counterW = flow.get(\"cWind\");\ncounterW++;\nflow.set(\"cWind\", counterW);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nlet temp2 = 0;\nif (!flow.get(\"cWind\")) {\n    flow.set(\"cWind\", temp2);\n}",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 420,
+        "wires": [
+            [
+                "cc73e1848cc9937d"
+            ]
+        ]
+    },
+    {
+        "id": "91d896978403dc6d",
+        "type": "openweathermap",
+        "z": "93f4958448e5f968",
+        "name": "openweather - city",
+        "wtype": "forecast",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "en",
+        "x": 1030,
+        "y": 300,
+        "wires": [
+            [
+                "386d410afe595108"
+            ]
+        ]
+    },
+    {
+        "id": "b08515ce3e05d3e3",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "weather - city",
+        "func": "msg.location = new Object;\nif(msg.payload.content.includes(\"Milan\")){\n    msg.location.city = \"Milan\"\n    msg.location.country = \"IT\"\n    return [msg, null];\n}\n\nif(msg.payload.content.includes(\"Rome\")){\n    msg.location.city = \"Rome\"\n    msg.location.country = \"IT\"\n    return[msg, null];\n}\nmsg.payload.content = \"I don't get what you're asking...\";\nreturn [null,msg]",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 320,
+        "wires": [
+            [
+                "91d896978403dc6d"
+            ],
+            [
+                "f7f6ee031c575571"
+            ]
+        ]
+    },
+    {
+        "id": "e7690c0babf0c0dd",
+        "type": "chatbot-message",
+        "z": "93f4958448e5f968",
+        "name": "weather - reply",
+        "message": [
+            {
+                "message": "{{payload.text}}"
+            }
+        ],
+        "language": "none",
+        "x": 1480,
+        "y": 300,
+        "wires": [
+            [
+                "dd2e83df36672dca"
+            ]
+        ]
+    },
+    {
+        "id": "f7f6ee031c575571",
+        "type": "chatbot-message",
+        "z": "93f4958448e5f968",
+        "name": "Error Message",
+        "message": [
+            {
+                "message": "{{payload.content}}"
+            }
+        ],
+        "language": "none",
+        "x": 1220,
+        "y": 360,
+        "wires": [
+            [
+                "dd2e83df36672dca"
+            ]
+        ]
+    },
+    {
+        "id": "386d410afe595108",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "weather - get",
+        "func": "let time;\nlet loc = msg.location.city;\nlet forecast;\nlet prev\n\nif(msg.originalMessage.text.includes(\"one day\")){\n    time = \"one day\"\n    forecast = msg.payload[8].weather[0].description\n    if(loc == \"Rome\"){\n        prev = context.get(\"RO\")\n        context.set(\"RO\", forecast);\n    } else if (loc == \"Milan\") {\n        prev = context.get(\"MO\")\n        context.set(\"MO\", forecast);\n    }\n}\nif (msg.originalMessage.text.includes(\"two days\")){\n    time = \"two days\"\n    forecast = msg.payload[16].weather[0].description\n    if (loc == \"Rome\") {\n        prev = context.get(\"RT\")\n        context.set(\"RT\", forecast);\n    } else if (loc == \"Milan\") {\n        prev = context.get(\"MT\")\n        context.set(\"MT\", forecast);\n    }\n}\n\nlet change;\nif(prev == \" \")\n    change = \"\"\nelse {\n    if(prev != forecast)\n        change = \"It did change since the last time I was asked!\"\n    else\n        change = \"It did not change since the last time I was asked!\"\n}\n\n\nlet c = \"Weather in \" + loc + \" in \" + time + \" is \" + forecast + \"!\" + change\n\nmsg.payload.text = c\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nlet temp = \" \";\nif (!context.get(\"MO\")) {\n    context.set(\"MO\", temp);\n} \nlet temp1 = \" \";\nif (!context.get(\"MT\")) {\n    context.set(\"MT\", temp1);\n}\nlet temp2 = \" \";\nif (!context.get(\"RO\")) {\n    context.set(\"RO\", temp2);\n}\nlet temp3 = \" \";\nif (!context.get(\"RT\")) {\n    context.set(\"RT\", temp3);\n}",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 300,
+        "wires": [
+            [
+                "e7690c0babf0c0dd"
+            ]
+        ]
+    },
+    {
+        "id": "cc73e1848cc9937d",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "wind - city ",
+        "func": "let message = new Array(node.outputCount);\nmsg.location = new Object;\nmsg.time = new Object;\n\nif (msg.payload.content.includes(\"Milan\")) {\n    msg.location.city = \"Milan\"\n    msg.location.country = \"IT\"\n\n    message[1] = msg;\n} else if (msg.payload.content.includes(\"Rome\")) {\n    msg.location.city = \"Rome\"\n    msg.location.country = \"IT\"\n\n    message[1] = msg;\n} else {\n    msg.payload.content = \"No city provided...\";\n    message[0] = msg;\n}\n\nreturn message;",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 420,
+        "wires": [
+            [
+                "f7f6ee031c575571"
+            ],
+            [
+                "321662b254d1781d"
+            ]
+        ]
+    },
+    {
+        "id": "321662b254d1781d",
+        "type": "openweathermap",
+        "z": "93f4958448e5f968",
+        "name": "openweather - wind",
+        "wtype": "forecast",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "en",
+        "x": 1040,
+        "y": 440,
+        "wires": [
+            [
+                "d45206cbf8829d2a"
+            ]
+        ]
+    },
+    {
+        "id": "d45206cbf8829d2a",
+        "type": "function",
+        "z": "93f4958448e5f968",
+        "name": "wind - get",
+        "func": "let isTomorrow = false;\nlet text = msg.originalMessage.text\nlet time = \"\"\n\nif (text.includes(\"in one day\")) {\n    isTomorrow = true // one day\n    time = \"in one day\"\n\n} else if (text.includes(\"in two days\")) {\n    isTomorrow = false // two days\n    time = \"in two days\"\n\n} else {\n    msg.payload.content = \"No time provided...\";\n\n    return msg\n}\n\nlet city = msg.location.city\nlet wind = isTomorrow ? msg.payload[8].wind.speed : msg.payload[16].wind.speed\nlet windChanged = false\nlet whichContextValue = \"NO\"\n\nif (city == \"Rome\" && isTomorrow) {\n    windChanged = context.get(\"RO\") != String(wind)\n    whichContextValue = \"RO\"\n} else if (city == \"Rome\" && !isTomorrow) {\n    windChanged = context.get(\"RT\") != String(wind)\n    whichContextValue = \"RT\"\n} else if (city == \"Milan\" && isTomorrow) {\n    windChanged = context.get(\"MO\") != String(wind)\n    whichContextValue = \"MO\"\n} else if (city == \"Milan\" && !isTomorrow) {\n    windChanged = context.get(\"MT\") != String(wind)\n    whichContextValue = \"MT\"\n} else {\n    msg.payload.content = \"How did you even get here? No supported city was mentioned...\";\n\n    return msg\n}\n\nlet firstEmpty = context.get(whichContextValue).length == 0\ncontext.set(whichContextValue, String(wind))\n\nlet stringWindChanged = windChanged ? \"It changed since the last time I was asked!\" : \"It did not change since the last time I was asked.\"\nstringWindChanged = firstEmpty ? \"\" : stringWindChanged\nmsg.payload.content = `Expected wind speed in ${city} ${time} is ${wind}! ` + stringWindChanged\n\n//MO - milan one\n//MT - milan two\n//RO - rome one\n//RT - rome two\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nlet temp = \"\";\nif (!context.get(\"MO\")) {\n    context.set(\"MO\", temp);\n}\n\nlet temp1 = \"\";\nif (!context.get(\"MT\")) {\n    context.set(\"MT\", temp1);\n}\n\nlet temp2 = \"\";\nif (!context.get(\"RO\")) {\n    context.set(\"RO\", temp2);\n}\n\nlet temp3 = \"\";\nif (!context.get(\"RT\")) {\n    context.set(\"RT\", temp3);\n}",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 500,
+        "wires": [
+            [
+                "89abb4011420e6d6"
+            ]
+        ]
+    },
+    {
+        "id": "89abb4011420e6d6",
+        "type": "chatbot-message",
+        "z": "93f4958448e5f968",
+        "name": "wind - reply",
+        "message": [
+            {
+                "message": "{{payload.content}}"
+            }
+        ],
+        "language": "none",
+        "x": 1470,
+        "y": 420,
+        "wires": [
+            [
+                "dd2e83df36672dca"
+            ]
+        ]
+    },
+    {
+        "id": "f14c05c704f244b3",
+        "type": "chatbot-telegram-node",
+        "botname": "Nodered NSDS",
+        "usernames": "",
+        "polling": "1000",
+        "store": "",
+        "log": "",
+        "debug": false,
+        "skipMediaFiles": false,
+        "webHook": "",
+        "connectMode": "polling",
+        "storeMessages": true,
+        "enableMissionControl": false,
+        "inspectMessages": true,
+        "chatbotId": ""
+    }
+]
