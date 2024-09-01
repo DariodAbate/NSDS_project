@@ -1,4 +1,4 @@
-# Apache Spark Project
+# Evaluation lab - Apache Spark
 
 ## Overview
 
