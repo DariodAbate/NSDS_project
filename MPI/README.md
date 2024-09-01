@@ -1,4 +1,4 @@
-# Evaluation Lab - MPI Ant Colony Simulation
+# Evaluation Lab - MPI
 
 ## Project Overview
 
