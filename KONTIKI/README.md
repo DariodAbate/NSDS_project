@@ -1,19 +1,20 @@
 # Evaluation lab - Contiki-NG
 
-## Group number: 17
+## Project Overview
+This project implements a simple sensing application. The application consists of a UDP server and multiple UDP clients that simulate temperature sensing and reporting.
 
-## Group members
+### Client-Server Interaction
+1. **Client Behavior**:
+   - Each client generates a temperature reading every minute using the `get_temperature()` function.
+   - If the client is unable to reach the server, it temporarily stores the temperature readings in a circular array with a capacity defined by `MAX_READINGS`.
+   - Upon re-establishing a connection:
+     - If the client was already connected before the disconnection, it sends the most recent temperature reading to the server.
+     - If the client has just reconnected, it computes the average of the stored readings and sends this average to the server. After this, the local storage is flushed.
 
-- Dario d'Abate 
-- Lorenzo Corrado
-- Filippo Ranieri Pantaleone
-
-## Solution description
-The server accepts connections from clients: it stores the IP_address of each client, up to MAX_RECEIVERS, so that the messages of unhandled clients are ignored.
-
-When the client cannot reach the server, it starts batching the generated temperatures: the storage is a circular array of size MAX_READINGS. 
-
-When the client can reach the server, we have two situations:
-- the client was already connected, therefore it sends a single temperature;
-- the client just reconnected after a temporary disconnection, therefore it sends an average temperature. The latter is computed on the batch of readings. The local storage is then flushed.
+2. **Server Behavior**:
+   - The server accepts connections from clients and stores their IP addresses, up to a maximum of `MAX_RECEIVERS`. Any clients beyond this limit are ignored.
+   - Upon receiving a temperature reading from a client, the server:
+     - Updates its list of the last `MAX_READINGS` readings.
+     - Computes the average of all received readings.
+     - If the average temperature exceeds a defined `ALERT_THRESHOLD`, the server sends a "high temperature alert" to all connected clients.
 
