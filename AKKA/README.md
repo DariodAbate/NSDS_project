@@ -1,7 +1,5 @@
 # Evaluation lab - Akka
 ## Description of the problem
-
-## Type of messages
 This project consists in implementing a simple sensor data processing system usign actors. There are three different actor types:
 - `Sensor data processor actor`, which mantain the average of the sensor reading it receives
 - `Dispatcher actor`, which distribute incoming sensor readings according to different policies (load balancing / round robin)
