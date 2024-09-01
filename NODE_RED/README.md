@@ -1,7 +1,5 @@
 # Evaluation lab - Node-RED
 
-# Node-RED Telegram Bot Project
-
 ## Overview
 
 This project involves creating a Telegram bot using Node-RED that can respond to weather-related queries for Milano or Rome. The bot uses OpenWeather data to provide forecasts and wind speed predictions. Additionally, it keeps track of changes in the forecast and logs the number of queries it serves.
