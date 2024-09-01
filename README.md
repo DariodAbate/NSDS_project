@@ -14,8 +14,8 @@ The key technologies covered in this project include:
 - **<a href="../master/MPI">MPI</a>**: A standardized and portable message-passing system designed to function on parallel computing architectures.
 
 ## The Team
-- #### [Dario d'Abate](https://github.com/DariodAbate)<br/>dario.dabate@mail.polimi.it
-- #### [Lorenzo Corrado](https://github.com/Lerrylore)<br/>lorenzo.corrado@mail.polimi.it
-- #### [Filippo Ranieri Pantaleone]()<br/>
+- #### [Dario d'Abate](https://github.com/DariodAbate)
+- #### [Lorenzo Corrado](https://github.com/Lerrylore)
+- #### [Filippo Ranieri Pantaleone]()
 
 
